@@ -18,7 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.kaopiz.kprogresshud.KProgressHUD;
+import com.onebit.spinner2.Spinner2;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
@@ -42,7 +42,6 @@ public class ImageFragment extends Fragment {
     private ImageView imageView;
     private String photoPath;
     private Uri photoURI;
-    private KProgressHUD hud;
 
     public static ImageFragment newInstance() {
         return new ImageFragment();
@@ -159,24 +158,12 @@ public class ImageFragment extends Fragment {
                                     nextStepButton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
+                                            Spinner2 lang = rootView.findViewById(R.id.lang);
+                                            String selectedLang = lang.getSelectedItem().toString();
+
                                             final Fragment OCRFragment = org.vogu35.ocr.ui.main.OCRFragment.newInstance();
-                                            OCRFragment.setArguments(utils.createBundle(photoPath, photoURI, 0, false));
-
-                                            hud = KProgressHUD.create(getContext())
-                                                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                                                    .setLabel(getResources().getString(R.string.please_wait_title))
-                                                    .setCancellable(false)
-                                                    .setDetailsLabel(getResources().getString(R.string.image_processing))
-                                                    .show();
-
-                                            final Handler handler = new Handler();
-                                            handler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    hud.dismiss();
-                                                    utils.switchFragment(getActivity(), OCRFragment);
-                                                }
-                                            }, 3000);
+                                            OCRFragment.setArguments(utils.createBundle(photoPath, photoURI, selectedLang, 0, false, true));
+                                            utils.switchFragment(getActivity(), OCRFragment);
                                         }
                                     });
                                 }

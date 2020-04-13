@@ -35,6 +35,7 @@
     <string name="result_header">Результат распознавания текста с изображения</string>
     <string name="editText_hint">* тут будет размещаться распознанный текст, доступный для редактирования... *</string>
     <string name="progressBar_text">Обработка....\n\nПожалуйста подождите!</string>
+    <string name="chooselang">Выберите язык распознаваемого текста:</string>
     <string name="choose_apptheme_title">Выберите тему приложения:</string>
     <string name="light_theme_title">Светлая тема</string>
     <string name="dark_theme_title">Темная тема</string>
@@ -49,4 +50,8 @@
     <string name="access_storage_error">Произошла ошибка при получении доступа к внутренней памяти устройства.</string>
     <string name="camera_error_title">Ошибка. Пожалуйста попробуйте выполнить действие снова!</string>
     <string name="prefs_theme_key">theme</string>
+    <string-array name="languages">
+        <item>Русский</item>
+        <item>Английский</item>
+    </string-array>
 </resources>

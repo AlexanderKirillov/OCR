@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment {
                                                 photoPath = imageFile.getAbsolutePath();
 
                                                 Fragment imageFragment = ImageFragment.newInstance();
-                                                imageFragment.setArguments(utils.createBundle(photoPath, photoURI, GMODE, true));
+                                                imageFragment.setArguments(utils.createBundle(photoPath, photoURI, null, GMODE, true, false));
                                                 utils.switchFragment(getActivity(), imageFragment);
 
                                             } catch (IOException e) {
@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment {
 
         if (GMODE == 1) {
             if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-                imageFragment.setArguments(utils.createBundle(photoPath, photoURI, GMODE, true));
+                imageFragment.setArguments(utils.createBundle(photoPath, photoURI, null, GMODE, true, false));
                 utils.switchFragment(getActivity(), imageFragment);
             } else {
                 utils.showSnackBar(getView(), getResources().getString(R.string.camera_error_title));
@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment {
                 photoURI = data.getData();
                 photoPath = utils.getRealPathFromURI(getContext(), photoURI);
 
-                imageFragment.setArguments(utils.createBundle(photoPath, photoURI, GMODE, true));
+                imageFragment.setArguments(utils.createBundle(photoPath, photoURI, null, GMODE, true, false));
                 utils.switchFragment(getActivity(), imageFragment);
             } else {
                 utils.showSnackBar(getView(), getResources().getString(R.string.choose_image_error));

@@ -45,7 +45,6 @@ public class SplashScreen extends AppCompatActivity {
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_EXTERNAL_STORAGE: {
-
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     final AlertDialog aboutDialog = new AlertDialog.Builder(
                             this)
@@ -70,6 +69,8 @@ public class SplashScreen extends AppCompatActivity {
 
     public void start() {
         utils.createOCRFolder();
+        utils.copyAssets("rus.traineddata");
+        utils.copyAssets("eng.traineddata");
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override

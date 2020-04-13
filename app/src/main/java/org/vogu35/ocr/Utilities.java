@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -23,10 +24,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -120,13 +124,16 @@ public class Utilities {
         fragmentTransaction.commit();
     }
 
-    public Bundle createBundle(String photoPath, Uri photoURI, int GMODE, boolean isModeNeed) {
+    public Bundle createBundle(String photoPath, Uri photoURI, String language, int GMODE, boolean isModeNeed, boolean isLangNeed) {
         Bundle bundle = new Bundle();
 
         bundle.putString("path_to_photo", photoPath);
         bundle.putString("uri_path", photoURI.toString());
         if (isModeNeed) {
             bundle.putInt("mode", GMODE);
+        }
+        if (isLangNeed) {
+            bundle.putString("lang", language);
         }
 
         return bundle;
@@ -138,6 +145,23 @@ public class Utilities {
         View snackBarView = snackbar.getView();
         snackBarView.setBackgroundColor(Color.parseColor("#5c0000"));
         snackbar.show();
+    }
+
+    public String extractText(Bitmap bitmap, String language) throws Exception {
+        TessBaseAPI tessBaseApi = new TessBaseAPI();
+
+        File appPath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "OCR");
+
+        if (language.equals("rus")) {
+            tessBaseApi.init(appPath.getAbsolutePath(), "rus");
+        }
+        if (language.equals("eng")) {
+            tessBaseApi.init(appPath.getAbsolutePath(), "eng");
+        }
+        tessBaseApi.setImage(bitmap);
+        String extractedText = tessBaseApi.getUTF8Text();
+        tessBaseApi.end();
+        return extractedText;
     }
 
     public String getRealPathFromURI(final Context context, final Uri uri) {
@@ -231,4 +255,45 @@ public class Utilities {
         return BD.getInt(context.getString(R.string.prefs_theme_key), -1);
     }
 
+    public void copyAssets(String filename) {
+        AssetManager assetManager = context.getAssets();
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = assetManager.open(filename);
+            File basePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "OCR");
+
+            File folder = new File(basePath, "tessdata");
+
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            File outFile = new File(folder, filename);
+            out = new FileOutputStream(outFile);
+            copyFile(in, out);
+
+        } catch (IOException ignored) {
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException ignored) {
+                }
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
+    }
+
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+    }
 }

@@ -34,8 +34,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/prevStepButton"
-                    android:layout_width="178dp"
-                    android:layout_height="75dip"
+                    android:layout_width="150dp"
+                    android:layout_height="70dip"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginStart="23dp"
                     android:layout_marginTop="10dp"
@@ -46,8 +46,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/cropButton"
-                    android:layout_width="170dp"
-                    android:layout_height="75dp"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_weight="0.25"
@@ -57,8 +57,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/rotateButton"
-                    android:layout_width="170dp"
-                    android:layout_height="75dp"
+                    android:layout_width="150dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_weight="0.25"
@@ -68,8 +68,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/nextStepButton"
-                    android:layout_width="165dp"
-                    android:layout_height="75dip"
+                    android:layout_width="150dp"
+                    android:layout_height="70dip"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="23dp"
@@ -77,6 +77,33 @@
                     android:src="@drawable/next"
                     app:cb_color="#8b0000"
                     app:cb_pressedRingWidth="8dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="35dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/chooselang"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.onebit.spinner2.Spinner2
+                    android:id="@+id/lang"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="35dp"
+                    android:layout_weight="0.5"
+                    android:entries="@array/languages"
+                    android:foregroundGravity="center"
+                    android:gravity="center" />
             </LinearLayout>
 
         </LinearLayout>
