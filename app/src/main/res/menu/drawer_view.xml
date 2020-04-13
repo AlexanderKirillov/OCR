@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/drawer_header_basic">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/homepage"
+                    android:title="@string/drawer_item_main" />
+                <item
+                    android:id="@+id/settingspage"
+                    android:title="@string/drawer_item_settings" />
+                <item
+                    android:id="@+id/exitpage"
+                    android:title="@string/drawer_item_exit" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_item_other">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/aboutpage"
+                    android:title="@string/drawer_item_about" />
+
+                <item
+                    android:id="@+id/connectpage"
+                    android:title="@string/drawer_item_connect" />
+            </group>
+        </menu>
+    </item>
+</menu>
