@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class OCRFragment extends Fragment {
     private String OCRText;
     private EditText resultText;
     private TextView ocrResultHeader;
+    RelativeLayout loading_scr;
     private Utilities utils = new Utilities(getContext());
     private String photoPath;
     private Uri photoURI;
@@ -44,6 +46,8 @@ public class OCRFragment extends Fragment {
 
         resultText = rootView.findViewById(R.id.resultText);
         ConstraintLayout ocr_layout = rootView.findViewById(R.id.ocr_layout);
+
+        loading_scr = rootView.findViewById(R.id.loadingscr);
 
         ocrResultHeader = rootView.findViewById(R.id.ocrResultHeader);
 
@@ -79,12 +83,6 @@ public class OCRFragment extends Fragment {
             super.onPreExecute();
             ocrResultHeader.setVisibility(View.INVISIBLE);
             resultText.setVisibility(View.INVISIBLE);
-            hud = KProgressHUD.create(getContext())
-                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                    .setLabel(getResources().getString(R.string.please_wait_title))
-                    .setCancellable(false)
-                    .setDetailsLabel(getResources().getString(R.string.image_processing))
-                    .show();
         }
 
         protected String doInBackground(Integer... params) {
@@ -101,9 +99,9 @@ public class OCRFragment extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             resultText.setText(result);
-            hud.dismiss();
             ocrResultHeader.setVisibility(View.VISIBLE);
             resultText.setVisibility(View.VISIBLE);
+            loading_scr.setVisibility(View.INVISIBLE);
         }
     }
 }

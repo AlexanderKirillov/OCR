@@ -13,7 +13,7 @@
 * возможность импорта фото из камеры, галереи или по URL-ссылке
 * возможность редактирования импортированного изображения (кадрирование, поворот)
 * используется умная технология распознавания текста
-* возможность экспорта распознанного текста в различные форматы (*.txt*, *.pdf*, *.docx*, ...)
+* возможность экспорта распознанного текста в различные форматы (*.txt*, *.pdf ...)
 
 ### Требования:
 * наличие мобильного устройства на базе OS Android 6.0 и выше
@@ -23,6 +23,7 @@
 * markushi: [android-circlebutton](https://github.com/markushi/android-circlebutton) 
 * ybq: [Android-SpinKit](https://github.com/ybq/Android-SpinKit) 
 * Kaopiz: [KProgressHUD](https://github.com/Kaopiz/KProgressHUD) 
+* castorflex: [SmoothProgressBar](https://github.com/castorflex/SmoothProgressBar) 
 * square: [picasso](https://github.com/square/picasso) 
 * Yalantis: [uCrop](https://github.com/Yalantis/uCrop) 
 * Google: [appcompat](https://developer.android.com/jetpack/androidx/releases/appcompat?hl=ru)
