@@ -28,6 +28,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -96,6 +97,38 @@ public class Utilities {
         File imageFile = new File(basePath, imageFileName + ".jpg");
 
         return imageFile;
+    }
+
+    public File createDocumentFile(String fn, String extension) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        String filename = fn;
+        if (fn.matches("")) {
+            filename = "OCR_TXT_" + timeStamp;
+        }
+
+        File basePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "OCR");
+
+        if (!basePath.exists()) {
+            basePath.mkdirs();
+        }
+
+        File documentFile = new File(basePath, filename + extension);
+
+        return documentFile;
+    }
+
+    public void writeToFile(String content, File file) {
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter writer = new FileWriter(file);
+            writer.append(content);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+        }
     }
 
     public boolean deleteDir(File dir) {

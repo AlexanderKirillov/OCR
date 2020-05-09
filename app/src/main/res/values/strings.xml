@@ -52,6 +52,13 @@
     <string name="prefs_theme_key">theme</string>
     <string name="ocrprogresstext">Пожалуйста подождите... \nОсуществляется распознавание текста с фото...</string>
     <string name="ocrattention">Обратите внимание, скорость распознавания зависит от:\n* мощности устройства\n* качества изображения\n* количества текста</string>
+    <string name="chooseFormatHeader">Выберите формат, в котором хотите сохранить текст:</string>
+    <string name="goToMain">НА ГЛАВНУЮ</string>
+    <string name="saveTitle">Сохранить</string>
+    <string name="errorSaving">При сохранении файла произошла ошибка! Пожалуйста попробуйте еще раз!</string>
+    <string name="savingSuccess">Файл успешно сохранен!\n\nПуть: </string>
+    <string name="enterFileName">Введите имя файла (без расширения):</string>
+    <string name="exportFileNameaddition">Если данное поле оставить незаполненным, файлу присвоится имя, соответствующее текущей дате и времени</string>
     <string-array name="languages">
         <item>Русский</item>
         <item>Английский</item>

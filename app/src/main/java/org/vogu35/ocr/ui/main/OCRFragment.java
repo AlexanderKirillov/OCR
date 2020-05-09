@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,7 +30,8 @@ public class OCRFragment extends Fragment {
     private String OCRText;
     private EditText resultText;
     private TextView ocrResultHeader;
-    RelativeLayout loading_scr;
+    private RelativeLayout loading_scr;
+    private Button exportButton;
     private Utilities utils = new Utilities(getContext());
     private String photoPath;
     private Uri photoURI;
@@ -45,6 +47,7 @@ public class OCRFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.ocr_fragment, container, false);
 
         resultText = rootView.findViewById(R.id.resultText);
+        exportButton = rootView.findViewById(R.id.exportbutton);
         ConstraintLayout ocr_layout = rootView.findViewById(R.id.ocr_layout);
 
         loading_scr = rootView.findViewById(R.id.loadingscr);
@@ -81,8 +84,6 @@ public class OCRFragment extends Fragment {
     class OCRProgress extends AsyncTask<Integer, Integer, String> {
         protected void onPreExecute() {
             super.onPreExecute();
-            ocrResultHeader.setVisibility(View.INVISIBLE);
-            resultText.setVisibility(View.INVISIBLE);
         }
 
         protected String doInBackground(Integer... params) {
@@ -101,7 +102,21 @@ public class OCRFragment extends Fragment {
             resultText.setText(result);
             ocrResultHeader.setVisibility(View.VISIBLE);
             resultText.setVisibility(View.VISIBLE);
+            exportButton.setVisibility(View.VISIBLE);
             loading_scr.setVisibility(View.INVISIBLE);
+
+            final Bundle shText = new Bundle();
+            shText.putString("OCRTEXT", OCRText);
+
+            exportButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment exportFragment = ExportFragment.newInstance();
+                    exportFragment.setArguments(shText);
+                    utils.switchFragment(getActivity(), exportFragment);
+                }
+            });
+
         }
     }
 }

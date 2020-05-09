@@ -49,6 +49,21 @@
                 android:textCursorDrawable="@android:color/transparent"
                 android:visibility="gone" />
 
+            <Button
+                android:id="@+id/exportbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button"
+                android:drawableLeft="@drawable/exporticon"
+                android:drawablePadding="6dp"
+                android:height="60dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="15dp"
+                android:text="ЭКСПОРТ"
+                android:textColor="#ffff"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
 
     </ScrollView>

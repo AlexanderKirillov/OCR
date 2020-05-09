@@ -97,6 +97,8 @@ public class SettingsFragment extends Fragment {
                         if (utils.deleteDir(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "OCR"))) {
                             progressDialog.dismiss();
                             utils.createOCRFolder();
+                            utils.copyAssets("rus.traineddata");
+                            utils.copyAssets("eng.traineddata");
                             utils.showSnackBar(getView(), getResources().getString(R.string.cleanup_success));
                         } else {
                             utils.showSnackBar(getView(), getResources().getString(R.string.cleanup_error));
