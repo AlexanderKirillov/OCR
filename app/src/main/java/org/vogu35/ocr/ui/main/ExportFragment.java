@@ -67,6 +67,7 @@ public class ExportFragment extends Fragment {
         final Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.img_btn_anim);
 
         final ImageButton txtButton = rootView.findViewById(R.id.textToTXT);
+        final ImageButton pdfButton = rootView.findViewById(R.id.textToPDF);
 
         txtButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +127,66 @@ public class ExportFragment extends Fragment {
             }
         });
 
+        pdfButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final View fileNameDialogView = inflater.inflate(R.layout.filename_dialog, null);
+                AlertDialog.Builder fileNameDialogBuilder = new AlertDialog.Builder(getActivity());
+                fileNameDialogBuilder.setView(fileNameDialogView);
+
+                fileNameDialogBuilder.setPositiveButton(R.string.saveTitle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            EditText filename = fileNameDialogView.findViewById(R.id.filename);
+                            String filenameStr = filename.getText().toString();
+
+                            File pdf = utils.createDocumentFile(filenameStr, ".pdf");
+                            utils.writeToPDF(OCRText, pdf);
+
+                            ll1.setVisibility(View.INVISIBLE);
+                            exportText.setVisibility(View.INVISIBLE);
+
+                            savestatus.setVisibility(View.VISIBLE);
+                            statusicon.setVisibility(View.VISIBLE);
+                            go_to_menu.setVisibility(View.VISIBLE);
+
+                            go_to_menu.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Fragment homeFragment = HomeFragment.newInstance();
+                                    utils.switchFragment(getActivity(), homeFragment);
+                                }
+                            });
+
+                            if (!pdf.exists()) {
+                                savestatus.setText(getActivity().getResources().getString(R.string.errorSaving));
+                                statusicon.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.error));
+
+                            } else {
+                                savestatus.setText(getActivity().getResources().getString(R.string.savingSuccess) + " " + pdf.getAbsolutePath());
+                                statusicon.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.success));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                fileNameDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+                fileNameDialogBuilder.show();
+            }
+        });
+
         setAnimOnImageButton(txtButton, anim);
+        setAnimOnImageButton(pdfButton, anim);
 
         return rootView;
     }

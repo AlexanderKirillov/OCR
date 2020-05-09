@@ -79,6 +79,14 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/txt" />
 
+            <ImageButton
+                android:id="@+id/textToPDF"
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/pdf" />
         </LinearLayout>
     </LinearLayout>
 

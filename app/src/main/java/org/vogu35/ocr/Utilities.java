@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -116,6 +124,48 @@ public class Utilities {
         File documentFile = new File(basePath, filename + extension);
 
         return documentFile;
+    }
+
+    public void addMetaData(Document document, String title) {
+        document.addTitle(title);
+        document.addSubject("Распознанный текст");
+        document.addAuthor("OCR App");
+        document.addCreator("OCR App");
+    }
+
+    public void writeToPDF(String text, File file) {
+
+        Document doc = new Document();
+
+        try {
+            FileOutputStream fOut = new FileOutputStream(file);
+            String filename = file.getName().substring(0, file.getName().length() - 4);
+            String timeStamp = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss").format(new Date());
+
+            BaseFont bf = BaseFont.createFont("/assets/fonts/TimesNewRoman.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+
+            Font fileNameFont = new Font(bf, 24, Font.BOLD | Font.UNDERLINE, BaseColor.GRAY);
+            Font titleFont = new Font(bf, 22, Font.BOLD, BaseColor.GRAY);
+            Font dateFont = new Font(bf, 18, Font.BOLDITALIC, BaseColor.GRAY);
+            Font font = new Font(bf, 14, Font.NORMAL);
+
+            PdfWriter.getInstance(doc, fOut);
+            doc.open();
+            addMetaData(doc, filename);
+
+            doc.add(new Paragraph("Имя файла: " + filename, fileNameFont));
+            doc.add(new Paragraph("Дата создания файла: " + timeStamp, dateFont));
+            doc.add(new Paragraph("\n", font));
+            doc.add(new Paragraph("Распознанный текст:", titleFont));
+            doc.add(new Paragraph("\n" + text, font));
+
+        } catch (DocumentException de) {
+            Log.e("PDFCreator", "DocumentException:" + de);
+        } catch (IOException e) {
+            Log.e("PDFCreator", "ioException:" + e);
+        } finally {
+            doc.close();
+        }
     }
 
     public void writeToFile(String content, File file) {
