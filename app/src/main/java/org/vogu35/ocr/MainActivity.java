@@ -27,16 +27,42 @@ import org.vogu35.ocr.ui.main.AboutFragment;
 import org.vogu35.ocr.ui.main.HomeFragment;
 import org.vogu35.ocr.ui.main.SettingsFragment;
 
+/**
+ * Главное активити приложения.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private final static int THEME_LIGHT = 1;
     private final static int THEME_DARK = 2;
+
+    /**
+     * Объект класса Utilities.
+     */
     private Utilities utils = new Utilities(this);
+
+    /**
+     * Элемент интерфейса - Toolbar.
+     */
     private Toolbar toolbar;
+
+    /**
+     * Элемент интерфейса - DrawerLayout.
+     */
     private DrawerLayout mDrawer;
+
+    /**
+     * Элемент интерфейса - ActionBarDrawerToggle.
+     */
     private ActionBarDrawerToggle drawerToggle;
+
+    /**
+     * Элемент интерфейса - NavigationView.
+     */
     private NavigationView nvDrawer;
 
+    /**
+     * Метод установки цветовой схемы приложения (темы).
+     */
     public void updateTheme() {
         Menu drawerMenu = nvDrawer.getMenu();
         drawerMenu.findItem(R.id.homepage).setChecked(true);
@@ -69,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Метод, вызываемый при инициализации активити.
+     * В процессе его работы настраиваем интерфейс (Navigation Drawer, ActionBar), устанавливаем цветовую схему приложения
+     * и запускаем HomeFragment.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Метод, вызываемый при двойном нажатии на кнопку назад.
+     * При двойном нажатии кнопки назад открывается\закрывается боковое меню.
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -117,25 +152,37 @@ public class MainActivity extends AppCompatActivity {
         else {
             drawer.openDrawer(GravityCompat.START);
         }
-
     }
 
+    /**
+     * Метод, вызываемый после onCreate().
+     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
 
+    /**
+     * Метод, вызываемый при изменении конфигураии устройства (например, ориентации дисплея).
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    /**
+     * Метод, реализующий инициализацию кнопки в ActionBar-е,
+     * предназначенной для открытия бокового меню.
+     */
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
 
+    /**
+     * Метод, вызываемый для обработки нажатий пунктов меню.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -144,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Метод, вызываемый для настройки бокового меню.
+     */
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -155,6 +205,10 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Метод, предназначенный для предопределения действий при нажатии на определенные пункты бокового меню.
+     * При нажатии на пункт бокового меню - запускается соответствующий фрагмент или выполняется определенное действие.
+     */
     public void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         int moveAction;

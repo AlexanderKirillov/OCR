@@ -32,6 +32,10 @@ import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Фрагмент "Главная страница".
+ * Предназначен для реализации возможностей импорта изображения, с которого будет осуществляться распознавание текста.
+ */
 public class HomeFragment extends Fragment {
     private static final int REQUEST_TAKE_PHOTO = 1;
     private static final int RESULT_LOAD_IMG = 1;
@@ -39,15 +43,37 @@ public class HomeFragment extends Fragment {
     private final static int THEME_LIGHT = 1;
     private final static int THEME_DARK = 2;
 
+    /**
+     * Режим импорта (1 - камера, 2 - галерея, 3 - по ссылке).
+     */
     private static int GMODE;
+
+    /**
+     * Объект класса Utilities.
+     */
     private Utilities utils = new Utilities(getContext());
+
+    /**
+     * Путь к импортируемому фото.
+     */
     private String photoPath;
+
+    /**
+     * URI (специальный идентификатор, по которому можно определить ресурс) импортируемого фото.
+     */
     private Uri photoURI;
 
+    /**
+     * Метод диначеского создания нового экземпляра данного фрагмента.
+     */
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
 
+    /**
+     * Основной метод фрагмента.
+     * В нем реализуется инициализация интерфейса, находятся обработчики кнопок и т.д.
+     */
     public View onCreateView(final @NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
@@ -173,6 +199,13 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Метод получения и обработки данных, полученных из других активити (в данном случае, из галереи или камеры).
+     *
+     * @param requestCode - параметр, определяющий то, откуда получать результат
+     * @param resultCode  - статус получения данных (успешно или нет)
+     * @param data        - данные
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Fragment imageFragment = ImageFragment.newInstance();
@@ -198,6 +231,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Метод, реализующий импорт фото с камеры
+     */
     private void takePictureFromCameraIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {

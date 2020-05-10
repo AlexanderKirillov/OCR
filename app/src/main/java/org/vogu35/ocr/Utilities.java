@@ -51,17 +51,36 @@ import word.w2004.elements.Heading2;
 import word.w2004.elements.Heading3;
 
 public class Utilities {
+    /**
+     * Текущий Context
+     */
     private Context context;
 
+    /**
+     * Конструктор класса
+     */
     public Utilities(Context context) {
         this.context = context;
     }
 
+    /**
+     * Метод перевода density-independent pixels в pixels
+     *
+     * @param dp  density-independent pixels
+     * @param ctx Context
+     * @return pixels
+     */
     public int dpToPx(int dp, Context ctx) {
         DisplayMetrics displayMetrics = ctx.getApplicationContext().getResources().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+    /**
+     * Метод сохранения Bitmap в файл с расширение PNG
+     *
+     * @param bitmap bitmap, который необходимо сохранить в файл
+     * @param path   путь файла
+     */
     public void saveBitmap(Bitmap bitmap, String path) {
         if (bitmap != null) {
             try {
@@ -87,12 +106,25 @@ public class Utilities {
         }
     }
 
+    /**
+     * Метод поворота Bitmap на указанное число градусов
+     *
+     * @param source bitmap, который необходимо повернуть
+     * @param angle  угол поворота
+     * @return перевернутый bitmap
+     */
     public Bitmap RotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
+    /**
+     * Метод создания файла-изображения
+     *
+     * @param mode режим создания (0 - обычное изображение, 1 - обрезанное изображение, 2 - перевернутое изображение)
+     * @return файл-изображение
+     */
     public File createImageFile(int mode) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -114,6 +146,13 @@ public class Utilities {
         return imageFile;
     }
 
+    /**
+     * Метод создания файла с указанным расширением. Используется в процессе экспорта.
+     *
+     * @param fn        строка с именем файла
+     * @param extension расширение файла
+     * @return созданный файл
+     */
     public File createDocumentFile(String fn, String extension) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -133,13 +172,19 @@ public class Utilities {
         return documentFile;
     }
 
-    public void addMetaData(Document document, String title) {
+    private void addMetaData(Document document, String title) {
         document.addTitle(title);
         document.addSubject("Распознанный текст");
         document.addAuthor("OCR App");
         document.addCreator("OCR App");
     }
 
+    /**
+     * Метод записи содержимого в .doc файл.
+     *
+     * @param content строка, которую будем записывать в .doc файл
+     * @param f       файл
+     */
     public void writeToDoc(String content, File f) {
 
         String filename = f.getName().substring(0, f.getName().length() - 4);
@@ -193,6 +238,13 @@ public class Utilities {
         }
     }
 
+    /**
+     * Метод записи содержимого в файл при помощи FileWriter.
+     *
+     * @param content              строка, которую будем записывать в файл
+     * @param file                 файл
+     * @param isNeedAdditionalInfo опция активации\деактивации необходимости добавления дополнительной информации (имя файла, дата создания) в файл
+     */
     public void writeToFile(String content, File file, Boolean isNeedAdditionalInfo) {
 
         String filename = file.getName().substring(0, file.getName().length() - 4);
@@ -215,6 +267,12 @@ public class Utilities {
         }
     }
 
+    /**
+     * Метод удаления папки из памяти устройства.
+     *
+     * @param dir папка, которую необходимо удалить
+     * @return статус удаления (успешно\неуспешно)
+     */
     public boolean deleteDir(File dir) {
         if (dir.isDirectory()) {
             for (File child : dir.listFiles()) {
@@ -227,6 +285,9 @@ public class Utilities {
         return dir.delete();
     }
 
+    /**
+     * Метод создания папки программы (/sdcard/Pictures/OCR)
+     */
     public void createOCRFolder() {
         File ocrDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "OCR");
         if (!ocrDir.exists()) {
@@ -234,6 +295,12 @@ public class Utilities {
         }
     }
 
+    /**
+     * Метод переключения фрагмента
+     *
+     * @param activity текущее Activity
+     * @param fr       фрагмент, на который мы переключаемся
+     */
     public void switchFragment(Activity activity, Fragment fr) {
         FragmentManager fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -241,6 +308,17 @@ public class Utilities {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Метод создания обьекта Bundle, предназначенного для передачи данных между фрагментами
+     *
+     * @param photoPath  путь к фото
+     * @param photoURI   URI фото
+     * @param language   язык распознавания текста
+     * @param GMODE      режим (импорт из камеры, галереи или по ссылке)
+     * @param isModeNeed требуется ли передача режима в данную функцию
+     * @param isLangNeed требуется ли передача языка распознавания в данную функцию
+     * @return обьект Bundle
+     */
     public Bundle createBundle(String photoPath, Uri photoURI, String language, int GMODE, boolean isModeNeed, boolean isLangNeed) {
         Bundle bundle = new Bundle();
 
@@ -256,6 +334,12 @@ public class Utilities {
         return bundle;
     }
 
+    /**
+     * Метод показа всплывающего сообщения (продвинутый аналог Toast)
+     *
+     * @param view    текущий View
+     * @param message строка, которую необходимо вывести
+     */
     public void showSnackBar(View view, String message) {
         Snackbar snackbar;
         snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
@@ -281,6 +365,13 @@ public class Utilities {
         return extractedText;
     }
 
+    /**
+     * Метод получения реального пути к файлу по URI
+     *
+     * @param context текущий Context
+     * @param uri     URI (специальный идентификатор, по которому можно определить ресурс) файла
+     * @return строка с абсолютным путем к файлу
+     */
     public String getRealPathFromURI(final Context context, final Uri uri) {
 
         if (DocumentsContract.isDocumentUri(context, uri)) {
@@ -328,18 +419,44 @@ public class Utilities {
         return null;
     }
 
+    /**
+     * Метод проверки, является ли файл документом в памяти устройства
+     *
+     * @param uri URI файла
+     * @return true или false, в зависимости от того, является или нет
+     */
     private boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
 
+    /**
+     * Метод проверки, является ли файл загруженным документом
+     *
+     * @param uri URI файла
+     * @return true или false, в зависимости от того, является или нет
+     */
     private boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
+    /**
+     * Метод проверки, является ли файл медиа-документом (фото, видео, аудио)
+     *
+     * @param uri URI файла
+     * @return true или false, в зависимости от того, является или нет
+     */
     private boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
+    /**
+     * Метод получения определенных данных при парсинге URI
+     *
+     * @param context       текущий Context
+     * @param uri           URI
+     * @param selection     строка с данными для выборки
+     * @param selectionArgs различные аргументы, применимые к выборке
+     */
     private String getDataColumn(Context context, Uri uri, String selection,
                                  String[] selectionArgs) {
         Cursor cursor = null;
@@ -362,16 +479,33 @@ public class Utilities {
         return null;
     }
 
+    /**
+     * Метод установки темы оформления интерфейса
+     *
+     * @param context текущий Context
+     * @param theme   номер темы (1 - светлая тема, 2 - темная тема)
+     */
     public void setTheme(Context context, int theme) {
         SharedPreferences BD = PreferenceManager.getDefaultSharedPreferences(context);
         BD.edit().putInt(context.getString(R.string.prefs_theme_key), theme).apply();
     }
 
+    /**
+     * Метод получения текущей темы оформления
+     *
+     * @param context текущий Context
+     * @return номер темы (1 - светлая тема, 2 - темная тема)
+     */
     public int getTheme(Context context) {
         SharedPreferences BD = PreferenceManager.getDefaultSharedPreferences(context);
         return BD.getInt(context.getString(R.string.prefs_theme_key), -1);
     }
 
+    /**
+     * Метод копирования вспомогательных файлов (например, словарей, используемых для распознавания текста) в папку программы
+     *
+     * @param filename имя файла, находящегося в assets
+     */
     public void copyAssets(String filename) {
         AssetManager assetManager = context.getAssets();
         InputStream in = null;
@@ -406,6 +540,12 @@ public class Utilities {
         }
     }
 
+    /**
+     * Метод копирования файла
+     *
+     * @param in  InputStream (откуда копировать)
+     * @param out OutputStream (куда копировать)
+     */
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;

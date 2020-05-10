@@ -20,21 +20,30 @@ import org.vogu35.ocr.Utilities;
 
 import java.io.File;
 
+/**
+ * Фрагмент "Настройки программы".
+ * Предназначен для предоставления пользователю возможностей изменения насттроек приложения (смена цветовой схемы, очистка кеша).
+ */
 public class SettingsFragment extends Fragment {
 
     private final static int THEME_LIGHT = 1;
     private final static int THEME_DARK = 2;
+
+    /**
+     * Объект класса Utilities.
+     */
     private Utilities utils = new Utilities(getContext());
 
+    /**
+     * Метод диначеского создания нового экземпляра данного фрагмента.
+     */
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
+    /**
+     * Метод перезапуска активити (применяется для корректного изменения цветовой схемы приложения).
+     */
     private void recreateActivity() {
         Intent intent = getActivity().getIntent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -44,6 +53,10 @@ public class SettingsFragment extends Fragment {
         getActivity().overridePendingTransition(0, 0);
     }
 
+    /**
+     * Основной метод фрагмента.
+     * В нем реализуется инициализация интерфейса, находятся обработчики кнопок и т.д.
+     */
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

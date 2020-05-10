@@ -27,33 +27,41 @@ import org.vogu35.ocr.Utilities;
 
 import java.io.File;
 
+/**
+ * Фрагмент "Экспорт".
+ * Предназначен для реализации возможностей экспорта распознанного текста.
+ */
 public class ExportFragment extends Fragment {
 
-    private TextView exportText;
-    private TextView savestatus;
-    private ImageView statusicon;
-    private Button go_to_menu;
-    private LinearLayout ll1;
-    private String OCRText;
+    /**
+     * Объект класса Utilities.
+     */
     private Utilities utils = new Utilities(getContext());
 
+    /**
+     * Метод диначеского создания нового экземпляра данного фрагмента.
+     */
     public static ExportFragment newInstance() {
         return new ExportFragment();
     }
 
+    /**
+     * Основной метод фрагмента.
+     * В нем реализуется инициализация интерфейса, находятся обработчики кнопок и т.д.
+     */
     @Override
     public View onCreateView(final @NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        OCRText = getArguments().getString("OCRTEXT");
+        final String OCRText = getArguments().getString("OCRTEXT");
 
         View rootView = inflater.inflate(R.layout.export_fragment, container, false);
 
-        exportText = rootView.findViewById(R.id.exportText);
-        ll1 = rootView.findViewById(R.id.ll1);
-        savestatus = rootView.findViewById(R.id.savestatus);
-        statusicon = rootView.findViewById(R.id.statusicon);
-        go_to_menu = rootView.findViewById(R.id.go_to_menu);
+        final TextView exportText = rootView.findViewById(R.id.exportText);
+        final LinearLayout ll1 = rootView.findViewById(R.id.ll1);
+        final TextView savestatus = rootView.findViewById(R.id.savestatus);
+        final ImageView statusicon = rootView.findViewById(R.id.statusicon);
+        final Button go_to_menu = rootView.findViewById(R.id.go_to_menu);
 
         ConstraintLayout export_layout = rootView.findViewById(R.id.export_layout);
 
@@ -251,6 +259,12 @@ public class ExportFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Метод анимирования ImageButton.
+     *
+     * @param imgBtn - объект ImageButton
+     * @param anim   - анимация
+     */
     private void setAnimOnImageButton(final ImageButton imgBtn, final Animation anim) {
         imgBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override

@@ -34,19 +34,47 @@ import at.markushi.ui.CircleButton;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Фрагмент "Работа с импортированным изображением".
+ * Предназначен для реализации возможностей просмотра и редактирования изображения (кадрирования, поворота),
+ * с которого будет осуществляться распознавание текста.
+ */
 public class ImageFragment extends Fragment {
 
     private final static int THEME_LIGHT = 1;
     private final static int THEME_DARK = 2;
+
+    /**
+     * Объект класса Utilities.
+     */
     private Utilities utils = new Utilities(getContext());
+
+    /**
+     * ImageView для просмотра импортированного фото.
+     */
     private ImageView imageView;
+
+    /**
+     * Путь к импортированному фото.
+     */
     private String photoPath;
+
+    /**
+     * URI (специальный идентификатор, по которому можно определить ресурс) импортированного фото.
+     */
     private Uri photoURI;
 
+    /**
+     * Метод диначеского создания нового экземпляра данного фрагмента.
+     */
     public static ImageFragment newInstance() {
         return new ImageFragment();
     }
 
+    /**
+     * Основной метод фрагмента.
+     * В нем реализуется инициализация интерфейса, находятся обработчики кнопок и т.д.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.image_fragment, container, false);
@@ -196,6 +224,14 @@ public class ImageFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Метод получения и обработки данных, полученных из других активити
+     * (в данном случае, из активити кадрирования изображения).
+     *
+     * @param requestCode - параметр, определяющий то, откуда получать результат.
+     * @param resultCode  - статус получения данных (успешно или нет).
+     * @param data        - данные.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 

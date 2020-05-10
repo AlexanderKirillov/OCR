@@ -12,16 +12,31 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+/**
+ * Активити загрузочного экрана приложения.
+ */
 public class SplashScreen extends AppCompatActivity {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
+    /**
+     * Необходимые разрешения для работы программы - чтение и запись в память устройства.
+     */
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    /**
+     * Объект класса Utilities.
+     */
     private Utilities utils = new Utilities(this);
 
+    /**
+     * Метод, вызываемый при инициализации активити.
+     * В нем реализуется инициализация интерфейса загрузочного экрана, запрос разрешений (если необходимо),
+     * и, непосредственно, вызов ключевого метода -  {@link SplashScreen#start()}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +55,11 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * Метод, который вызывается после пользов. предоставления\отклонения запроса разрешения на доступ к файлам во внутр.памяти устр.
+     * Если разрешение не предоставлено - выводится ошибка.
+     * Если предоставлено - программа начинает запускаться (см. {@link SplashScreen#start()}) .
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
@@ -67,6 +87,10 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * Метод запуска программы (создание папки приложения, распаковка в нее необх. файлов,
+     * эмуляция загрузки, переход к другой активити).
+     */
     public void start() {
         utils.createOCRFolder();
         utils.copyAssets("rus.traineddata");

@@ -1,5 +1,4 @@
-<scale
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<scale xmlns:android="http://schemas.android.com/apk/res/android"
     android:duration="200"
     android:fillAfter="true"
     android:fromXScale="0.9"
@@ -7,5 +6,4 @@
     android:pivotX="50%"
     android:pivotY="50%"
     android:toXScale="1.0"
-    android:toYScale="1.0" >
-</scale>
+    android:toYScale="1.0"></scale>
