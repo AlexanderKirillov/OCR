@@ -43,6 +43,13 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import word.api.interfaces.IDocument;
+import word.w2004.Document2004;
+import word.w2004.elements.BreakLine;
+import word.w2004.elements.Heading1;
+import word.w2004.elements.Heading2;
+import word.w2004.elements.Heading3;
+
 public class Utilities {
     private Context context;
 
@@ -133,6 +140,24 @@ public class Utilities {
         document.addCreator("OCR App");
     }
 
+    public void writeToDoc(String content, File f) {
+
+        String filename = f.getName().substring(0, f.getName().length() - 4);
+        String timeStamp = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss").format(new Date());
+
+        IDocument myDoc = new Document2004();
+        myDoc.addEle(Heading1.with("Имя файла: " + filename).create());
+        myDoc.addEle(Heading2.with("Дата создания файла: " + timeStamp).create());
+        myDoc.addEle(BreakLine.times(1).create());
+        myDoc.addEle(Heading3.with("Распознанный текст: "));
+        myDoc.addEle(BreakLine.times(1).create());
+        myDoc.addEle(word.w2004.elements.Paragraph.with(content).create());
+
+        String wordFormat = myDoc.getContent();
+
+        writeToFile(wordFormat, f, false);
+    }
+
     public void writeToPDF(String text, File file) {
 
         Document doc = new Document();
@@ -144,7 +169,7 @@ public class Utilities {
 
             BaseFont bf = BaseFont.createFont("/assets/fonts/TimesNewRoman.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-            Font fileNameFont = new Font(bf, 24, Font.BOLD | Font.UNDERLINE, BaseColor.GRAY);
+            Font fileNameFont = new Font(bf, 24, Font.BOLD, BaseColor.GRAY);
             Font titleFont = new Font(bf, 22, Font.BOLD, BaseColor.GRAY);
             Font dateFont = new Font(bf, 18, Font.BOLDITALIC, BaseColor.GRAY);
             Font font = new Font(bf, 14, Font.NORMAL);
@@ -168,12 +193,21 @@ public class Utilities {
         }
     }
 
-    public void writeToFile(String content, File file) {
+    public void writeToFile(String content, File file, Boolean isNeedAdditionalInfo) {
+
+        String filename = file.getName().substring(0, file.getName().length() - 4);
+        String timeStamp = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss").format(new Date());
+
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
             FileWriter writer = new FileWriter(file);
+            if (isNeedAdditionalInfo) {
+                writer.append("Имя файла: " + filename);
+                writer.append("\nДата создания файла:" + timeStamp);
+                writer.append("\n\nРаспознанный текст:\n\n");
+            }
             writer.append(content);
             writer.flush();
             writer.close();

@@ -34,4 +34,5 @@ dependencies {
     implementation 'com.github.scijoker:spinner2:1.0.1'
     implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     implementation 'com.itextpdf:itextg:5.5.10'
+    implementation files('libs\\java2word-3.3.jar')
 }

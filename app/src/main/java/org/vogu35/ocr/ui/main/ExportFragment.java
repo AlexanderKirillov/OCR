@@ -68,6 +68,7 @@ public class ExportFragment extends Fragment {
 
         final ImageButton txtButton = rootView.findViewById(R.id.textToTXT);
         final ImageButton pdfButton = rootView.findViewById(R.id.textToPDF);
+        final ImageButton docButton = rootView.findViewById(R.id.textToDoc);
 
         txtButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +86,7 @@ public class ExportFragment extends Fragment {
                             String filenameStr = filename.getText().toString();
 
                             File txt = utils.createDocumentFile(filenameStr, ".txt");
-                            utils.writeToFile(OCRText, txt);
+                            utils.writeToFile(OCRText, txt, true);
 
                             ll1.setVisibility(View.INVISIBLE);
                             exportText.setVisibility(View.INVISIBLE);
@@ -185,8 +186,67 @@ public class ExportFragment extends Fragment {
             }
         });
 
+        docButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final View fileNameDialogView = inflater.inflate(R.layout.filename_dialog, null);
+                AlertDialog.Builder fileNameDialogBuilder = new AlertDialog.Builder(getActivity());
+                fileNameDialogBuilder.setView(fileNameDialogView);
+
+                fileNameDialogBuilder.setPositiveButton(R.string.saveTitle, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            EditText filename = fileNameDialogView.findViewById(R.id.filename);
+                            String filenameStr = filename.getText().toString();
+
+                            File doc = utils.createDocumentFile(filenameStr, ".doc");
+                            utils.writeToDoc(OCRText, doc);
+
+                            ll1.setVisibility(View.INVISIBLE);
+                            exportText.setVisibility(View.INVISIBLE);
+
+                            savestatus.setVisibility(View.VISIBLE);
+                            statusicon.setVisibility(View.VISIBLE);
+                            go_to_menu.setVisibility(View.VISIBLE);
+
+                            go_to_menu.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Fragment homeFragment = HomeFragment.newInstance();
+                                    utils.switchFragment(getActivity(), homeFragment);
+                                }
+                            });
+
+                            if (!doc.exists()) {
+                                savestatus.setText(getActivity().getResources().getString(R.string.errorSaving));
+                                statusicon.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.error));
+
+                            } else {
+                                savestatus.setText(getActivity().getResources().getString(R.string.savingSuccess) + " " + doc.getAbsolutePath());
+                                statusicon.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.success));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                fileNameDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+                fileNameDialogBuilder.show();
+            }
+        });
+
         setAnimOnImageButton(txtButton, anim);
         setAnimOnImageButton(pdfButton, anim);
+        setAnimOnImageButton(docButton, anim);
 
         return rootView;
     }

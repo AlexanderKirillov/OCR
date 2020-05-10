@@ -66,6 +66,7 @@
             android:id="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="100sp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -74,7 +75,7 @@
                 android:layout_width="80sp"
                 android:layout_height="80sp"
                 android:layout_gravity="center"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="20dp"
                 android:background="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/txt" />
@@ -84,9 +85,19 @@
                 android:layout_width="80sp"
                 android:layout_height="80sp"
                 android:layout_gravity="center"
+                android:layout_marginRight="20dp"
                 android:background="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/pdf" />
+
+            <ImageButton
+                android:id="@+id/textToDoc"
+                android:layout_width="80sp"
+                android:layout_height="80sp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/doc" />
         </LinearLayout>
     </LinearLayout>
 
