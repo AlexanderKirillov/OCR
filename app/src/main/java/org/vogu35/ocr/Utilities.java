@@ -50,6 +50,9 @@ import word.w2004.elements.Heading1;
 import word.w2004.elements.Heading2;
 import word.w2004.elements.Heading3;
 
+/**
+ * Класс, содержащий в себе различные методы, используемые в других частях программы
+ */
 public class Utilities {
     /**
      * Текущий Context
@@ -172,6 +175,12 @@ public class Utilities {
         return documentFile;
     }
 
+    /**
+     * Метод добавления метаданных к PDF файлу.
+     *
+     * @param document PDF документ
+     * @param title    заголовок документа
+     */
     private void addMetaData(Document document, String title) {
         document.addTitle(title);
         document.addSubject("Распознанный текст");
@@ -203,6 +212,12 @@ public class Utilities {
         writeToFile(wordFormat, f, false);
     }
 
+    /**
+     * Метод записи содержимого в .pdf файл.
+     *
+     * @param text строка, которую будем записывать в .pdf файл
+     * @param file файл
+     */
     public void writeToPDF(String text, File file) {
 
         Document doc = new Document();
@@ -348,6 +363,13 @@ public class Utilities {
         snackbar.show();
     }
 
+    /**
+     * Метод распознавания текста с изображения (Bitmap)
+     *
+     * @param bitmap   Bitmap
+     * @param language язык распознаваемого текста
+     * @return строка с распознанным текстом
+     */
     public String extractText(Bitmap bitmap, String language) throws Exception {
         TessBaseAPI tessBaseApi = new TessBaseAPI();
 

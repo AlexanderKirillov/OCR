@@ -18,30 +18,74 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.kaopiz.kprogresshud.KProgressHUD;
-
 import org.vogu35.ocr.R;
 import org.vogu35.ocr.Utilities;
 
+/**
+ * Фрагмент "Распознавание текста с изображения".
+ * Предназначен для реализации технологии распознавания текста с фото.
+ */
 public class OCRFragment extends Fragment {
 
     private final static int THEME_LIGHT = 1;
     private final static int THEME_DARK = 2;
-    private String OCRText;
-    private EditText resultText;
-    private TextView ocrResultHeader;
-    private RelativeLayout loading_scr;
-    private Button exportButton;
-    private Utilities utils = new Utilities(getContext());
-    private String photoPath;
-    private Uri photoURI;
-    private String language;
-    private KProgressHUD hud;
 
+    /**
+     * Строка с распознанным текстом.
+     */
+    private String OCRText;
+
+    /**
+     * Поле, где будет размещаться распознанный текст, доступный для редактирования пользователем.
+     */
+    private EditText resultText;
+
+    /**
+     * Заголовок экрана распознавания текста.
+     */
+    private TextView ocrResultHeader;
+
+    /**
+     * Часть интерфейса, показывающаяся пользователю в процессе распознавания текста.
+     */
+    private RelativeLayout loading_scr;
+
+    /**
+     * Кнопка экспорта распознанного текста
+     */
+    private Button exportButton;
+
+    /**
+     * Объект класса Utilities.
+     */
+    private Utilities utils = new Utilities(getContext());
+
+    /**
+     * Путь к импортированному фото.
+     */
+    private String photoPath;
+
+    /**
+     * URI (специальный идентификатор, по которому можно определить ресурс) импортированного фото.
+     */
+    private Uri photoURI;
+
+    /**
+     * Язык распознаваемого текста (на выбор, русский или английский).
+     */
+    private String language;
+
+    /**
+     * Метод диначеского создания нового экземпляра данного фрагмента.
+     */
     public static OCRFragment newInstance() {
         return new OCRFragment();
     }
 
+    /**
+     * Основной метод фрагмента.
+     * в нем реализуется инициализация интерфейса, запуск процесса распознавания текста и т.д.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.ocr_fragment, container, false);
@@ -81,11 +125,16 @@ public class OCRFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Класс, позволяющий осуществить распознавание текста с в отдельном потоке
+     * Без разделения потоков, в процессе распознавания текста, произойдет зависание программы
+     */
     class OCRProgress extends AsyncTask<Integer, Integer, String> {
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
+        /**
+         * Метод, в котором реализуется непосредственно сам процесс распознавания,
+         * который осуществляется в отдельном потоке и в фоне.
+         */
         protected String doInBackground(Integer... params) {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap imageBitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
@@ -97,6 +146,10 @@ public class OCRFragment extends Fragment {
             return OCRText;
         }
 
+        /**
+         * Метод, который запускается после окончания работы метода распознавания текста.
+         * В нем реализуется динамическое изменение интерфейса и назначается обработчик на нажатие кнопки "ЭКСПОРТ"
+         */
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             resultText.setText(result);
@@ -105,12 +158,12 @@ public class OCRFragment extends Fragment {
             exportButton.setVisibility(View.VISIBLE);
             loading_scr.setVisibility(View.INVISIBLE);
 
-            final Bundle shText = new Bundle();
-            shText.putString("OCRTEXT", OCRText);
-
             exportButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    final Bundle shText = new Bundle();
+                    shText.putString("OCRTEXT", resultText.getText().toString());
+
                     Fragment exportFragment = ExportFragment.newInstance();
                     exportFragment.setArguments(shText);
                     utils.switchFragment(getActivity(), exportFragment);
